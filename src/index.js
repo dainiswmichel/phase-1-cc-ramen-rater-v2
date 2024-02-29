@@ -81,47 +81,39 @@ const addSubmitListener = () => {
  * Fetch API provides a JavaScript interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses.
  * Learn more about Fetch API: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
  */
+
+
 const displayRamens = async () => {
   try {
-    // Fetch the list of ramen objects from the server using a GET request.
     const response = await fetch('http://localhost:3000/ramens');
-
-    // Check if the response is successful (status code in the range 200-299).
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }
-
-    // Parse the response as JSON.
     const ramens = await response.json();
-
-    // Select the #ramen-menu div.
-    const ramenMenuDiv = document.getElementById('ramen-menu');
-
-    // Clear any existing content inside the #ramen-menu div.
-    ramenMenuDiv.innerHTML = '';
-
-    // For each ramen object:
+    const carouselDiv = document.getElementById('carousel');
+    carouselDiv.innerHTML = '';
     ramens.forEach(ramen => {
-      // Create an image element with the src attribute set to the ramen's image path.
       const imageElement = document.createElement('img');
-      // Set the src attribute to the ramen's image path.
       imageElement.src = `${ramen.image}`;
-      imageElement.alt = ramen.name; // Set alt attribute to provide alternative text.
-
-      // Append the image element to the #ramen-menu div.
-      ramenMenuDiv.appendChild(imageElement);
-
-      // Attach a click event listener to each image.
+      imageElement.alt = ramen.name;
+      carouselDiv.appendChild(imageElement);
       imageElement.addEventListener('click', () => handleClick(ramen));
     });
-
-    // Display the first ramen details on page load
-    if (ramens.length > 0) {
-      handleClick(ramens[0]);
-    }
   } catch (error) {
-    console.error('Error fetching ramen data:', error);
+    console.error(`Error: ${error}`);
+  } finally {
+    $('#carousel').slick({
+      dots: true,
+      infinite: true,
+      speed: 500,
+      fade: true,
+      cssEase: 'linear'
+    });
   }
+};
+
+
+
 
   // Invoke addSubmitListener here
   addSubmitListener();
@@ -135,11 +127,13 @@ const displayRamens = async () => {
  * Learn more about JavaScript functions: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
  */
 const main = () => {
-  // Invoke displayRamens after the DOM has fully loaded
-  // The DOMContentLoaded event fires when the initial HTML document has been completely loaded and parsed, without waiting for stylesheets, images, and subframes to finish loading.
-  // Learn more about DOMContentLoaded event: https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event
-  document.addEventListener('DOMContentLoaded', displayRamens);
+  // Invoke displayRamens and addSubmitListener after the DOM has fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    displayRamens();
+    addSubmitListener();
+  });
 };
+
 
 // Start the symphony
 main();
