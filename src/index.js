@@ -1,14 +1,30 @@
 // index.js
-let currentRamen = null; // Add this line at the top of your script
 
-// Callbacks
+// Our helpful assistant: currentRamen keeps track of the selected ramen
+// JavaScript variables are containers for storing data values.
+// Learn more about JavaScript variables: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#declarations
+let currentRamen = null;
+
+// Callbacks - where the magic happens
+
+/**
+ * Handle a click event on a ramen image.
+ * @param {Object} ramen - The ramen object with all its delicious details.
+ * JavaScript events are actions that can be detected by JavaScript.
+ * Learn more about JavaScript events: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Events
+ */
 const handleClick = (ramen) => {
   // Update the currentRamen variable
   currentRamen = ramen;
 
+  // Grab the ramen-detail div
+  // document.getElementById is a method that gets the element that has the ID attribute with the specified value.
+  // Learn more about document.getElementById: https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
   const ramenDetailDiv = document.getElementById('ramen-detail');
 
   // Create elements dynamically
+  // The Document Object Model (DOM) is a programming interface for web documents. It represents the structure of a document and allows programs to manipulate the document's structure, style, and content.
+  // Learn more about the DOM: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction
   const detailImage = ramenDetailDiv.querySelector('.detail-image');
   detailImage.src = ramen.image;
   detailImage.alt = ramen.name;
@@ -27,12 +43,18 @@ const handleClick = (ramen) => {
   commentDisplay.textContent = ramen.comment;
 };
 
+// Time to listen for submissions
 
+/**
+ * Attach a submit event listener to the form for updating ramen details.
+ * Event listeners are procedures in JavaScript that wait for an event to occur.
+ * Learn more about event listeners: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+ */
 const addSubmitListener = () => {
-  // Select the new-ramen form
+  // Find the new-ramen form
   const newRamenForm = document.getElementById('edit-ramen');
 
-  // Attach a submit event listener to the form
+  // Listen for the magic submit event
   newRamenForm.addEventListener('submit', function(event) {
     // Prevent the default form submission behavior
     event.preventDefault();
@@ -52,6 +74,13 @@ const addSubmitListener = () => {
   });
 };
 
+// Time to display all the ramens
+
+/**
+ * Fetch and display the list of ramen objects on the page.
+ * Fetch API provides a JavaScript interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses.
+ * Learn more about Fetch API: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+ */
 const displayRamens = async () => {
   try {
     // Fetch the list of ramen objects from the server using a GET request.
@@ -94,19 +123,30 @@ const displayRamens = async () => {
     console.error('Error fetching ramen data:', error);
   }
 
-  // Invoke addSubmitListener here 
+  // Invoke addSubmitListener here
   addSubmitListener();
 };
 
+// Main function - the conductor of the symphony
 
+/**
+ * The maestro, orchestrating the entire ramen experience.
+ * JavaScript functions are blocks of code designed to perform a particular task.
+ * Learn more about JavaScript functions: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
+ */
 const main = () => {
-  // Invoke displayRamens after the DOM has fully loaded.
+  // Invoke displayRamens after the DOM has fully loaded
+  // The DOMContentLoaded event fires when the initial HTML document has been completely loaded and parsed, without waiting for stylesheets, images, and subframes to finish loading.
+  // Learn more about DOMContentLoaded event: https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event
   document.addEventListener('DOMContentLoaded', displayRamens);
 };
 
+// Start the symphony
 main();
 
 // Export functions for testing
+// JavaScript modules are small units of independent, reusable code that is desired to be used as the building blocks in creating a JavaScript application.
+// Learn more about JavaScript modules: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
 export {
   displayRamens,
   addSubmitListener,
