@@ -93,13 +93,19 @@ const displayRamens = async () => {
       // Attach a click event listener to each image.
       imageElement.addEventListener('click', () => handleClick(ramen));
     });
+
+    // Display the first ramen details on page load
+    if (ramens.length > 0) {
+      handleClick(ramens[0]);
+    }
   } catch (error) {
     console.error('Error fetching ramen data:', error);
   }
 
-  // Invoke addSubmitListener here if needed
+  // Invoke addSubmitListener here 
   addSubmitListener();
 };
+
 
 const main = () => {
   // Invoke displayRamens after the DOM has fully loaded.
