@@ -1,8 +1,11 @@
 // index.js
+let currentRamen = null; // Add this line at the top of your script
 
 // Callbacks
 const handleClick = (ramen) => {
-  // Update the ramen-detail div with the clicked ramen's details
+  // Update the currentRamen variable
+  currentRamen = ramen;
+
   const ramenDetailDiv = document.getElementById('ramen-detail');
 
   // Create elements dynamically
@@ -24,9 +27,10 @@ const handleClick = (ramen) => {
   commentDisplay.textContent = ramen.comment;
 };
 
+
 const addSubmitListener = () => {
   // Select the new-ramen form
-  const newRamenForm = document.getElementById('new-ramen');
+  const newRamenForm = document.getElementById('edit-ramen');
 
   // Attach a submit event listener to the form
   newRamenForm.addEventListener('submit', function(event) {
@@ -34,31 +38,19 @@ const addSubmitListener = () => {
     event.preventDefault();
 
     // Get the values from the form inputs
-    const newRamenImage = document.getElementById('new-image').value;
-    const newRamenName = document.getElementById('new-name').value;
-    const newRamenRestaurant = document.getElementById('new-restaurant').value;
-    const newRamenRating = document.getElementById('new-rating').value;
-    const newRamenComment = document.getElementById('new-comment').value;
+    const updatedRamenRating = document.getElementById('updated-rating').value;
+    const updatedRamenComment = document.getElementById('updated-comment').value;
 
-    // Create a new ramen div with these values
-    const newRamenDiv = document.createElement('div');
-    newRamenDiv.innerHTML = `<img src="${newRamenImage}" alt="${newRamenName}" />`;
+    // Update the current ramen's properties
+    if (currentRamen) {
+      currentRamen.rating = updatedRamenRating;
+      currentRamen.comment = updatedRamenComment;
 
-    // Append the new ramen div to the #ramen-menu div
-    const ramenMenuDiv = document.getElementById('ramen-menu');
-    ramenMenuDiv.appendChild(newRamenDiv);
-
-    // Display the new ramen details as if it had been clicked
-    handleClick({
-      image: newRamenImage,
-      name: newRamenName,
-      restaurant: newRamenRestaurant,
-      rating: newRamenRating,
-      comment: newRamenComment
-    });
+      // Update the display
+      handleClick(currentRamen);
+    }
   });
 };
-
 
 const displayRamens = async () => {
   try {
